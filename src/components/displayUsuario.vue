@@ -40,7 +40,7 @@
       </div>
       <!-- Motor Row -->
       <div class="row">
-        <div class="col-5 title-container">Motor *</div>
+        <div class="col-5 title-container">Motor</div>
         <div class="col-7">
           <input type="text" v-model="motor">
         </div>
@@ -51,7 +51,7 @@
       <!-- Send Button Row -->
       <div class="row">
         <div class="col-12">
-          <button class="send-form">General Folio</button>
+          <button class="send-form" @click="sendData()">General Folio</button>
         </div>
       </div>
     </div>
@@ -68,6 +68,25 @@ export default {
       modelo: '',
       anno: '',
       motor: ''
+    }
+  },
+  methods: {
+    sendData: function () {
+      /* eslint-disable */
+      // Apollo Handling
+      console.log(this.armadora);
+      console.log(this.modelo);
+      console.log(this.anno);
+      console.log(this.motor);
+      // Apollo Handling
+      this.clear();
+      this.formView = false;
+    },
+    clear: function () {
+      this.armadora = "";
+      this.modelo = "";
+      this.anno = "";
+      this.motor = "";
     }
   }
 }
