@@ -1,9 +1,57 @@
 <template>
   <div class="page">
-    <div class="container">
+    <!-- Options Container -->
+    <div class="container" v-if="!formView">
+      <!-- Fast Service Row -->
       <div class="row">
         <div class="col-12">
-          Hello There!
+          <button>Caja Rapida</button>
+        </div>
+      </div>
+      <!-- Refactions Row -->
+      <div class="row">
+        <div class="col-12">
+          <button @click="formView = true;">Refacciones</button>
+        </div>
+      </div>
+    </div>
+    <!-- Form Container -->
+    <div class="container" v-else>
+      <!-- Armadora Row -->
+      <div class="row">
+        <div class="col-5 title-container">Armadora</div>
+        <div class="col-7">
+          <input type="text" v-model="armadora">
+        </div>
+      </div>
+      <!-- Modelo Row -->
+      <div class="row">
+        <div class="col-5 title-container">Modelo</div>
+        <div class="col-7">
+          <input type="text" v-model="modelo">
+        </div>
+      </div>
+      <!-- Año Row -->
+      <div class="row">
+        <div class="col-5 title-container">Año</div>
+        <div class="col-7">
+          <input type="text" v-model="anno">
+        </div>
+      </div>
+      <!-- Motor Row -->
+      <div class="row">
+        <div class="col-5 title-container">Motor *</div>
+        <div class="col-7">
+          <input type="text" v-model="motor">
+        </div>
+        <div class="row disclaimer">
+          <div>* opcional</div>
+        </div>
+      </div>
+      <!-- Send Button Row -->
+      <div class="row">
+        <div class="col-12">
+          <button class="send-form">General Folio</button>
         </div>
       </div>
     </div>
@@ -15,12 +63,41 @@ export default {
   name: 'displayUsuario',
   data: function () {
     return {
-      formView: false
+      formView: false,
+      armadora: '',
+      modelo: '',
+      anno: '',
+      motor: ''
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+button {
+  background-color: #f18d2a;
+  color: #ffffff;
+  font-size: 4rem;
+  height: 164px;
+  width: 636px;
+  &:active {
+    background-color: #b3661a;
+  }
+}
 
+.title-container {
+  background-color: #f3af31;
+  color: #ffffff;
+  text-transform: uppercase;
+}
+
+.disclaimer {
+  font-size: 3rem;
+  justify-content: flex-start;
+  margin: 0;
+  padding: 0;
+  & > div {
+    margin-left: 12%;
+  }
+}
 </style>

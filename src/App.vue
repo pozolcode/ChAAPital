@@ -35,5 +35,17 @@ export default {
 </script>
 
 <style lang="scss">
-@import url("../public/assets/css/tejuino/tejuino.css")
+@import url("../public/assets/css/tejuino/tejuino.css");
+
+body {
+  background-color: #efefef;
+  font-size: 4rem;
+}
+
+.row {
+  margin: 7.5% 0;
+  justify-content: center;
+  text-align: center;
+  margin: 2.5% 0;
+}
 </style>
