@@ -3,7 +3,7 @@
     <div class="container">
       <div class="row">
         <div class="col-12">
-          public\assets\css\tejuino\tejuino.css
+          Hello There!
         </div>
       </div>
     </div>
@@ -12,7 +12,12 @@
 
 <script>
 export default {
-  name: 'displayUsuario'
+  name: 'displayUsuario',
+  data: function () {
+    return {
+      formView: false
+    }
+  }
 }
 </script>
 

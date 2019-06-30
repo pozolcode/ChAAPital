@@ -1,6 +1,19 @@
 <template>
   <div id="app">
-    <displayUsuario />
+    <div class="view-selector" v-if="generalView">
+      <div class="container">
+        <!-- User UX Row --> 
+        <div class="row">
+          <div class="col-12">
+            <button @click="displayUser = true; generalView = false;">Vista Usuario</button>
+          </div>
+        </div>
+        <!-- General Display UX Row -->
+      </div>
+    </div>
+    <div v-else-if="displayUser">
+      <displayUsuario />
+    </div>
   </div>
 </template>
 
@@ -11,6 +24,12 @@ export default {
   name: 'app',
   components: {
     displayUsuario
+  },
+  data: function () {
+    return {
+      generalView: true,
+      displayUser: false
+    }
   }
 }
 </script>
