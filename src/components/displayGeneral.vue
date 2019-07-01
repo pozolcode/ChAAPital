@@ -36,5 +36,7 @@ export default {
 }
 
 .window-number { font-size: 5rem; }
+
+.windows-text { text-transform: uppercase; }
 </style>
 
