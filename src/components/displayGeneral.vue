@@ -24,6 +24,7 @@ export default {
       openOperator: 'Placeholder'
     }
   }
+  // Apollo Calls to fill variable names
 }
 </script>
 
