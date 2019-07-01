@@ -1,28 +1,51 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div class="view-selector" v-if="generalView">
+      <div class="container">
+        <!-- User UX Row --> 
+        <div class="row">
+          <div class="col-12">
+            <button @click="displayUser = true; generalView = false;">Vista Usuario</button>
+          </div>
+        </div>
+        <!-- General Display UX Row -->
+      </div>
+    </div>
+    <div v-else-if="displayUser">
+      <displayUsuario />
+    </div>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import displayUsuario from './components/displayUsuario.vue'
 
 export default {
   name: 'app',
   components: {
-    HelloWorld
+    displayUsuario
+  },
+  data: function () {
+    return {
+      generalView: true,
+      displayUser: false
+    }
   }
 }
 </script>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+<style lang="scss">
+@import url("../public/assets/css/tejuino/tejuino.css");
+
+body {
+  background-color: #efefef;
+  font-size: 4rem;
+}
+
+.row {
+  margin: 7.5% 0;
+  justify-content: center;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  margin: 2.5% 0;
 }
 </style>
