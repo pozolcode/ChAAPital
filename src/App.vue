@@ -14,6 +14,7 @@
             <button @click="displayGeneral = true; generalView = false">Vista General</button>
           </div>
         </div>
+        <!-- Operator Display UX Row -->
       </div>
     </div>
     <div v-else-if="displayUser"><displayUsuario /></div>
