@@ -84,8 +84,8 @@ export default {
     },
     clear: function () {
       this.company = "";
-      this.modelo = "";
-      this.anno = "";
+      this.model = "";
+      this.year = "";
       this.motor = "";
     }
   }
