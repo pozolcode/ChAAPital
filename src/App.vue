@@ -9,26 +9,34 @@
           </div>
         </div>
         <!-- General Display UX Row -->
+        <div class="row">
+          <div class="col-12">
+            <button @click="displayGeneral = true; generalView = false">Vista General</button>
+          </div>
+        </div>
+        <!-- Operator Display UX Row -->
       </div>
     </div>
-    <div v-else-if="displayUser">
-      <displayUsuario />
-    </div>
+    <div v-else-if="displayUser"><displayUsuario /></div>
+    <div v-else-if="displayGeneral"><displayGeneral /></div>
   </div>
 </template>
 
 <script>
 import displayUsuario from './components/displayUsuario.vue'
+import displayGeneral from './components/displayGeneral.vue'
 
 export default {
   name: 'app',
   components: {
-    displayUsuario
+    displayUsuario,
+    displayGeneral
   },
   data: function () {
     return {
       generalView: true,
-      displayUser: false
+      displayUser: false,
+      displayGeneral: false
     }
   }
 }
