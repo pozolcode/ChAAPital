@@ -48,8 +48,8 @@ export default {
       let dummyUser = "root";
       let dummyPassword = "123"
       // Dummy Variables
-      if (user === dummyUser && password === dummyPassword) {
-        logged = true;
+      if (this.user === dummyUser && this.password === dummyPassword) {
+        this.logged = true;
       } else {
         alert("Usuario y/o Contraseña Incorrectos\nInténtelo de nuevo");
       }
