@@ -17,25 +17,25 @@
     </div>
     <!-- Form Container -->
     <div class="container" v-else>
-      <!-- Armadora Row -->
+      <!-- Company Row -->
       <div class="row">
         <div class="col-5 title-container">Armadora</div>
         <div class="col-7">
-          <input type="text" v-model="armadora">
+          <input type="text" v-model="company">
         </div>
       </div>
-      <!-- Modelo Row -->
+      <!-- Model Row -->
       <div class="row">
         <div class="col-5 title-container">Modelo</div>
         <div class="col-7">
-          <input type="text" v-model="modelo">
+          <input type="text" v-model="model">
         </div>
       </div>
-      <!-- Año Row -->
+      <!-- Year Row -->
       <div class="row">
         <div class="col-5 title-container">Año</div>
         <div class="col-7">
-          <input type="text" v-model="anno">
+          <input type="text" v-model="year">
         </div>
       </div>
       <!-- Motor Row -->
@@ -64,9 +64,9 @@ export default {
   data: function () {
     return {
       formView: false,
-      armadora: '',
-      modelo: '',
-      anno: '',
+      company: '',
+      model: '',
+      year: '',
       motor: ''
     }
   },
@@ -74,16 +74,16 @@ export default {
     sendData: function () {
       /* eslint-disable */
       // Apollo Handling
-      console.log(this.armadora);
-      console.log(this.modelo);
-      console.log(this.anno);
+      console.log(this.company);
+      console.log(this.model);
+      console.log(this.year);
       console.log(this.motor);
       // Apollo Handling
       this.clear();
       this.formView = false;
     },
     clear: function () {
-      this.armadora = "";
+      this.company = "";
       this.modelo = "";
       this.anno = "";
       this.motor = "";

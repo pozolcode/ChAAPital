@@ -15,28 +15,37 @@
           </div>
         </div>
         <!-- Operator Display UX Row -->
+        <div class="row">
+          <div class="col-12">
+            <button @click="displayOperator = true; generalView = false">Vista Operador</button>
+          </div>
+        </div>
       </div>
     </div>
     <div v-else-if="displayUser"><displayUsuario /></div>
     <div v-else-if="displayGeneral"><displayGeneral /></div>
+    <div v-else-if="displayOperator"><displayOperador /></div>
   </div>
 </template>
 
 <script>
 import displayUsuario from './components/displayUsuario.vue'
 import displayGeneral from './components/displayGeneral.vue'
+import displayOperador from './components/displayOperador.vue'
 
 export default {
   name: 'app',
   components: {
     displayUsuario,
-    displayGeneral
+    displayGeneral,
+    displayOperador
   },
   data: function () {
     return {
       generalView: true,
       displayUser: false,
-      displayGeneral: false
+      displayGeneral: false,
+      displayOperator: false
     }
   }
 }
