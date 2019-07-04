@@ -1,0 +1,14 @@
+mutation addTurns($company: String, $model: String, $motor: String, $status: String, $year: String, $speedCheck: Boolean){
+  insert_turns(objects: [{
+    company: $company
+    model: $model
+    motor: $motor
+    year: $year
+    status: "free"
+    speedCheck: false
+  }]) {
+    returning{
+      id
+    }
+  }
+}
