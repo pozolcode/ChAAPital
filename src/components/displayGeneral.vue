@@ -3,13 +3,17 @@
     <div class="container">
       <!-- Current Turn Row -->
         <div class="row">
+          <li v-for="turn in turns" :key="turn.id">
           <div class="col-12"><span class="window-text">Turno</span></div>
-          <div class="col-12"><span class="window-number">{{ currentTurn }}</span></div>
+          <div class="col-12"><span class="window-number">{{ turn.id }}</span></div>
+          </li>
         </div>
       <!-- Open Operator Row -->
       <div class="row">
+        <li v-for="operator in operatorList" :key="operator.id">
         <div class="col-12"><span class="window-text">Ventana</span></div>
-        <div class="col-12"><span class="window-number">{{ openOperator }}</span></div>
+        <div class="col-12"><span class="window-number">{{ operator.id }}</span></div>
+        </li>
       </div>
     </div>
   </div>
@@ -22,39 +26,35 @@ export default {
   name: 'displayGeneral',
   data: function () {
     return {
-      currentTurn: 0,
-      openOperator: 0
+      turns: [],
+      operatorList: []
     }
   },
   // Apollo Calls to fill variable names
   apollo: {
-    currentTurn: {
+    turns: {
       query: gql`
-      query getTurns {
+      query {
         turns (limit: 1, where: {status: {_eq: "free"}, speedCheck: {_eq: false}}) {
           id
         }
-      }`,
-      update (data) {
-        return data.turns.currentTurn;
-      }
+      }`
     },
-    openOperator: {
+    operatorList: {
       query: gql`
-      query getOperator {
+      query {
         operatorList (limit: 1, where: {active: {_eq: true}, type: {_eq: 1}}) {
           id
         }
-      }`,
-      update (data) {
-        return data.operatorList.openOperator;
-      }
+      }`
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+li {list-style: none}
+
 .page {
   background-color: #f18d2a;
   color: #ffffff;
