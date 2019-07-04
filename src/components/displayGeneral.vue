@@ -2,33 +2,59 @@
   <div class="page">
     <div class="container">
       <!-- Current Turn Row -->
-      <div class="row">
-        <div class="col-12"><span class="window-text">Turno</span></div>
-        <div class="col-12"><span class="window-number">{{ currentTurn }}</span></div>
-      </div>
+        <div class="row">
+          <li v-for="turn in turns" :key="turn.id">
+          <div class="col-12"><span class="window-text">Turno</span></div>
+          <div class="col-12"><span class="window-number">{{ turn.id }}</span></div>
+          </li>
+        </div>
       <!-- Open Operator Row -->
       <div class="row">
+        <li v-for="operator in operatorList" :key="operator.id">
         <div class="col-12"><span class="window-text">Ventana</span></div>
-        <div class="col-12"><span class="window-number">{{ openOperator }}</span></div>
+        <div class="col-12"><span class="window-number">{{ operator.id }}</span></div>
+        </li>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+import gql from 'graphql-tag'
+
 export default {
   name: 'displayGeneral',
   data: function () {
     return {
-      currentTurn: 'Placeholder',
-      openOperator: 'Placeholder'
+      turns: [],
+      operatorList: []
+    }
+  },
+  // Apollo Calls to fill variable names
+  apollo: {
+    turns: {
+      query: gql`
+      query getTurns {
+        turns (limit: 1, where: {status: {_eq: "free"}, speedCheck: {_eq: false}}) {
+          id
+        }
+      }`
+    },
+    operatorList: {
+      query: gql`
+      query getOperator {
+        operatorList (limit: 1, where: {active: {_eq: true}, type: {_eq: 1}}) {
+          id
+        }
+      }`
     }
   }
-  // Apollo Calls to fill variable names
 }
 </script>
 
 <style lang="scss" scoped>
+li {list-style: none}
+
 .page {
   background-color: #f18d2a;
   color: #ffffff;
