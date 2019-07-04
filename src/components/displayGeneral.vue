@@ -34,7 +34,7 @@ export default {
   apollo: {
     turns: {
       query: gql`
-      query {
+      query getTurns {
         turns (limit: 1, where: {status: {_eq: "free"}, speedCheck: {_eq: false}}) {
           id
         }
@@ -42,7 +42,7 @@ export default {
     },
     operatorList: {
       query: gql`
-      query {
+      query getOperator {
         operatorList (limit: 1, where: {active: {_eq: true}, type: {_eq: 1}}) {
           id
         }
