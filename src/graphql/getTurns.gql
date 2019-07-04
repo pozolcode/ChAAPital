@@ -1,0 +1,5 @@
+query getTurns {
+  turns (limit: 1, where: {status: {_eq: "free"}, speedCheck: {_eq: false}}) {
+    id
+  }
+}
