@@ -5,7 +5,7 @@
       <!-- Fast Service Row -->
       <div class="row">
         <div class="col-12">
-          <button>Caja Rapida</button>
+          <button @click="speedCheck()">Caja Rapida</button>
         </div>
       </div>
       <!-- Refactions Row -->
@@ -74,14 +74,28 @@ export default {
     sendData: function () {
       /* eslint-disable */
       // Apollo Handling
-      console.log(this.company);
-      console.log(this.model);
-      console.log(this.year);
-      console.log(this.motor);
+      const {company, model, motor, year} = this
+      this.$apollo.mutate ({
+        mutation: require ('../graphql/addTurns.gql'),
+        variables: {
+          company,
+          model,
+          motor,
+          year
+        }
+      })
       // Apollo Handling
       this.clear();
       this.formView = false;
     },
+  //   speedCheck: function () {
+  //     /* eslint-disable */
+  //     //Apollo Handling
+  //     this.$apollo.mutate ({
+  //       mutation: require ('../graphql/speedCheck.gql')
+  //     })
+  //     //Apollo Handling
+  // },
     clear: function () {
       this.company = "";
       this.model = "";

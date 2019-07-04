@@ -1,0 +1,15 @@
+mutation {
+  insert_turns(objects: [{
+    company: ""
+    model: ""
+    motor: ""
+    year: ""
+    status: "free"
+    speedCheck: true
+  }]) {
+    returning{
+      id
+    }
+  }
+}
+
