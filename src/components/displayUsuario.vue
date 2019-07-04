@@ -5,7 +5,7 @@
       <!-- Fast Service Row -->
       <div class="row">
         <div class="col-12">
-          <button>Caja Rapida</button>
+          <button @click="sendFastData()">Caja Rapida</button>
         </div>
       </div>
       <!-- Refactions Row -->
@@ -59,6 +59,8 @@
 </template>
 
 <script>
+import gql from 'graphql-tag'
+
 export default {
   name: 'displayUsuario',
   data: function () {
@@ -72,12 +74,19 @@ export default {
   },
   methods: {
     sendData: function () {
-      /* eslint-disable */
       // Apollo Handling
-      console.log(this.company);
-      console.log(this.model);
-      console.log(this.year);
-      console.log(this.motor);
+      this.$apollo.mutate ({
+        mutation: gql`mutation ($company: String, $model: String, $year: String, $motor: String, $speedCheck: Boolean, $status: String) {
+           insert_turns(objects:{
+             company: $company,
+             model: $model,
+             motor: $motor,
+             speedCheck: false,
+             status: "free",
+             year: $year
+           }
+        }`
+      })
       // Apollo Handling
       this.clear();
       this.formView = false;
