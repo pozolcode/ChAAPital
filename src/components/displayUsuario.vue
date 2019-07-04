@@ -74,6 +74,7 @@ export default {
     sendData: function () {
       /* eslint-disable */
       // Apollo Handling
+      const {company, model, motor, year} = this
       this.$apollo.mutate ({
         mutation: require ('../graphql/addTurns.gql'),
         variables: {
@@ -87,14 +88,14 @@ export default {
       this.clear();
       this.formView = false;
     },
-    speedCheck: function () {
-      /* eslint-disable */
-      //Apollo Handling
-      this.$apollo.mutate ({
-        mutation: require ('../graphql/speedCheck.gql')
-      })
-      //Apollo Handling
-    },
+  //   speedCheck: function () {
+  //     /* eslint-disable */
+  //     //Apollo Handling
+  //     this.$apollo.mutate ({
+  //       mutation: require ('../graphql/speedCheck.gql')
+  //     })
+  //     //Apollo Handling
+  // },
     clear: function () {
       this.company = "";
       this.model = "";
