@@ -28,23 +28,23 @@
       </div>
       <!-- Current Turn Row -->
       <div class="row">
-        <div class="col-5">Atendiendo Turno {{ dataTurn }}</div>
+        <div class="col-5">Atendiendo Turno: {{ dataClient.id }}</div>
       </div>
       <!-- Company Data Row -->
       <div class="row">
-        <div class="col-5">Armadora: {{ dataCompany }}</div>
+        <div class="col-5">Armadora: {{ dataClient.company }}</div>
       </div>
       <!-- Model Data Row -->
       <div class="row">
-        <div class="col-5">Modelo: {{ dataModel }}</div>
+        <div class="col-5">Modelo: {{ dataClient.model }}</div>
       </div>
       <!-- Year Data Row -->
       <div class="row">
-        <div class="col-5">Año: {{ dataYear }}</div>
+        <div class="col-5">Año: {{ dataClient.year }}</div>
       </div>
       <!-- Motor Data Row -->
       <div class="row">
-        <div class="col-5">Motor: {{ dataMotor }}</div>
+        <div class="col-5">Motor: {{ dataClient.motor }}</div>
         <div class="col-7">
           <button @click="fetchTurn">Siguiente</button>
         </div>
@@ -63,11 +63,7 @@ export default {
       logged: false,
       user: '',
       password: '',
-      dataTurn: '',
-      dataCompany: '',
-      dataModel: '',
-      dataYear: '',
-      dataMotor: '',
+      dataClient: [],
       operatorList: [],
     }
   },
@@ -96,42 +92,14 @@ export default {
     getData: function () {
       // Apollo Handling
       apollo: ({
-        dataCompany: {
+        dataClient: {
           query: gql`
           query getTurns {
-            dataCompany (limit: 1, where: {status: {_eq: "free"}, speedCheck: {_eq: false}}) {
+            dataClient (limit: 1, where: {status: {_eq: "free"}, speedCheck: {_eq: false}}) {
               company
-            }
-          }`
-        },
-        dataMotor: {
-          query: gql`
-          query getTurns {
-            dataMotor (limit: 1, where: {status: {_eq: "free"}, speedCheck: {_eq: false}}) {
-              motor
-            }
-          }`
-        },
-        dataModel: {
-          query: gql`
-          query getTurns {
-            dataModel (limit: 1, where: {status: {_eq: "free"}, speedCheck: {_eq: false}}) {
               model
-            }
-          }`
-        },
-        dataYear: {
-          query: gql`
-          query getTurns {
-            dataYear (limit: 1, where: {status: {_eq: "free"}, speedCheck: {_eq: false}}) {
+              motor
               year
-            }
-          }`
-        },
-        dataTurn: {
-          query: gql`
-          query getTurns {
-            dataTurn (limit: 1, where: {status: {_eq: "free"}, speedCheck: {_eq: false}}) {
               id
             }
           }`
