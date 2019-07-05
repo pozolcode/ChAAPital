@@ -54,6 +54,8 @@
 </template>
 
 <script>
+import gql from 'graphql-tag'
+
 export default {
   name: "displayOperador",
   data: function () {
@@ -65,36 +67,76 @@ export default {
       dataCompany: '',
       dataModel: '',
       dataYear: '',
-      dataMotor: ''
+      dataMotor: '',
+      operatorList: [],
+    }
+  },
+  // Apollo Calls to get operator data
+  apollo: {
+    operatorList: {
+      query: gql`
+      query {
+        operatorList {
+          name
+          password
+        }
+      }`
     }
   },
   methods: {
     login: function () {
       /* eslint-disable */
-      // Apollo Handling
-      console.log(this.user);
-      console.log(this.password);
-      // Apollo Handling
-      // Dummy Variables
-      let dummyUser = "root";
-      let dummyPassword = "123"
-      // Dummy Variables
-      if (this.user === dummyUser && this.password === dummyPassword) {
-        this.logged = true;
-        this.getData();
-      } else {
-        alert("Usuario y/o Contraseña Incorrectos\nInténtelo de nuevo");
-      }
-      this.user = "";
-      this.password = "";
+      this.operatorList.forEach(element => {
+        if (this.user === element.name && this.password === element.password) {
+          this.getData();
+          this.logged = true;
+        }
+      });
     },
     getData: function () {
       // Apollo Handling
-      this.dataTurn = "1";
-      this.dataCompany = "Placeholder";
-      this.dataModel = "Placeholder";
-      this.dataYear = "Placeholder";
-      this.dataMotor = "Placeholder";
+      apollo: ({
+        dataCompany: {
+          query: gql`
+          query getTurns {
+            dataCompany (limit: 1, where: {status: {_eq: "free"}, speedCheck: {_eq: false}}) {
+              company
+            }
+          }`
+        },
+        dataMotor: {
+          query: gql`
+          query getTurns {
+            dataMotor (limit: 1, where: {status: {_eq: "free"}, speedCheck: {_eq: false}}) {
+              motor
+            }
+          }`
+        },
+        dataModel: {
+          query: gql`
+          query getTurns {
+            dataModel (limit: 1, where: {status: {_eq: "free"}, speedCheck: {_eq: false}}) {
+              model
+            }
+          }`
+        },
+        dataYear: {
+          query: gql`
+          query getTurns {
+            dataYear (limit: 1, where: {status: {_eq: "free"}, speedCheck: {_eq: false}}) {
+              year
+            }
+          }`
+        },
+        dataTurn: {
+          query: gql`
+          query getTurns {
+            dataTurn (limit: 1, where: {status: {_eq: "free"}, speedCheck: {_eq: false}}) {
+              id
+            }
+          }`
+        }
+      })
       // Apollo Handling
     },
     pushTurn: function () {
