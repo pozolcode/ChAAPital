@@ -28,11 +28,11 @@
             <!-- Welcome Row -->
             <div v-for="turn in data.turns" :key="turn.id">
               <div class="row">
-                <div class="col-5 welcome">Bienvenido Operador</div>
+                <div class="col-5 welcome">Bienvenido Operador {{ operatorList.name }}</div>
               </div>  
               <!-- Current Turn Row -->
               <div class="row">
-                <div class="col-5">Atendiendo Turno: {{ turn.id }}</div>
+                <div class="col-5">Atendiendo Turno: {{currentId = turn.id }}</div>
               </div>
               <!-- Company Data Row -->
               <div class="row">
@@ -72,7 +72,8 @@ export default {
       user: '',
       password: '',
       operatorList: [],
-      turns: []
+      turns: [],
+      currentId: null
     }
   },
   // Apollo Calls to get operator data
@@ -90,6 +91,7 @@ export default {
   },
   methods: {
     login: function () {
+      const{ currentId } = this
       this.operatorList.forEach(element => {
           /* eslint-disable */
         if (this.user === element.name && this.password === element.password) {
@@ -100,18 +102,30 @@ export default {
               id
             }
           })
+          /* this.$apollo.mutate ({
+            mutation: require ('../graphql/clientAttending.gql'),
+            variables: {
+              currentId
+            }
+          }) */
           this.logged = true;
         }
       });
     },
     pushTurn: function () {
-      // Apollo Handling
-      // GETs next turn data
-      // Apollo Handling
+      //Apollo Handling
+      /* eslint-disable */
+      const{ currentId } = this
+      this.$apollo.mutate ({
+        mutation: require ('../graphql/clientDone.gql'),
+        variables: {
+          currentId
+        }
+      })
+      //Apollo Handling
     },
     fetchTurn: function () {
       this.pushTurn();
-      this.getData();
     }
   }
 }
