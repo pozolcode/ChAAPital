@@ -22,33 +22,41 @@
     </div>
     <!-- Operator Display Menu -->
     <div class="container operator-menu" v-else-if="logged">
-      <!-- Welcome Row -->
-      <div class="row">
-        <div class="col-5 welcome">Bienvenido Operador</div>
-      </div>
-      <!-- Current Turn Row -->
-      <div class="row">
-        <div class="col-5">Atendiendo Turno: {{ dataClient.id }}</div>
-      </div>
-      <!-- Company Data Row -->
-      <div class="row">
-        <div class="col-5">Armadora: {{ dataClient.company }}</div>
-      </div>
-      <!-- Model Data Row -->
-      <div class="row">
-        <div class="col-5">Modelo: {{ dataClient.model }}</div>
-      </div>
-      <!-- Year Data Row -->
-      <div class="row">
-        <div class="col-5">Año: {{ dataClient.year }}</div>
-      </div>
-      <!-- Motor Data Row -->
-      <div class="row">
-        <div class="col-5">Motor: {{ dataClient.motor }}</div>
-        <div class="col-7">
-          <button @click="fetchTurn">Siguiente</button>
-        </div>
-      </div>
+      <ApolloQuery :query="require('../graphql/getTurns.gql')">
+        <template slot-scope="{result: { data }}">
+          <div v-if="data">
+            <!-- Welcome Row -->
+            <div v-for="turn in data.turns" :key="turn.id">
+              <div class="row">
+                <div class="col-5 welcome">Bienvenido Operador</div>
+              </div>  
+              <!-- Current Turn Row -->
+              <div class="row">
+                <div class="col-5">Atendiendo Turno: {{ turn.id }}</div>
+              </div>
+              <!-- Company Data Row -->
+              <div class="row">
+                <div class="col-5">Armadora: {{ turn.company }}</div>
+              </div>
+              <!-- Model Data Row -->
+              <div class="row">
+                <div class="col-5">Modelo: {{ turn.model }}</div>
+              </div>
+              <!-- Year Data Row -->
+              <div class="row">
+                <div class="col-5">Año: {{ turn.year }}</div>
+              </div>
+              <!-- Motor Data Row -->
+              <div class="row">
+                <div class="col-5">Motor: {{ turn.motor }}</div>
+              <div class="col-7">
+            </div>
+            <button @click="fetchTurn">Siguiente</button>
+            </div>
+            </div>
+          </div>
+        </template>
+      </ApolloQuery>
     </div>
   </div>
 </template>
@@ -63,8 +71,8 @@ export default {
       logged: false,
       user: '',
       password: '',
-      dataClient: [],
       operatorList: [],
+      turns: []
     }
   },
   // Apollo Calls to get operator data
@@ -75,37 +83,26 @@ export default {
         operatorList {
           name
           password
+          id
         }
       }`
     }
   },
   methods: {
     login: function () {
-      /* eslint-disable */
       this.operatorList.forEach(element => {
+          /* eslint-disable */
         if (this.user === element.name && this.password === element.password) {
-          this.getData();
+          let id = element.id;
+          this.$apollo.mutate ({
+            mutation: require ('../graphql/operatorStatus.gql'),
+            variables: {
+              id
+            }
+          })
           this.logged = true;
         }
       });
-    },
-    getData: function () {
-      // Apollo Handling
-      apollo: ({
-        dataClient: {
-          query: gql`
-          query getTurns {
-            dataClient (limit: 1, where: {status: {_eq: "free"}, speedCheck: {_eq: false}}) {
-              company
-              model
-              motor
-              year
-              id
-            }
-          }`
-        }
-      })
-      // Apollo Handling
     },
     pushTurn: function () {
       // Apollo Handling
