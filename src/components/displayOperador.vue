@@ -49,6 +49,8 @@
               <!-- Motor Data Row -->
               <div class="row">
                 <div class="col-5">Motor: {{ turn.motor }}</div>
+              
+                {{ metodo() }}
               <div class="col-7">
             </div>
             <button @click="fetchTurn">Siguiente</button>
@@ -102,12 +104,6 @@ export default {
               id
             }
           })
-          /* this.$apollo.mutate ({
-            mutation: require ('../graphql/clientAttending.gql'),
-            variables: {
-              currentId
-            }
-          }) */
           this.logged = true;
         }
       });
@@ -126,6 +122,16 @@ export default {
     },
     fetchTurn: function () {
       this.pushTurn();
+    },
+    metodo: function () {
+      /* eslint-disable */
+      const{ currentId } = this
+      this.$apollo.mutate ({
+            mutation: require ('../graphql/clientAttending.gql'),
+            variables: {
+              currentId
+            }
+          })
     }
   }
 }
