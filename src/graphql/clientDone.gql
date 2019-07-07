@@ -1,0 +1,9 @@
+mutation ($currentId: Int){
+  update_turns(_set: {status: "done"} where: {
+    id: {
+      _eq: $currentId
+    }
+  }) {
+    affected_rows
+  }
+}

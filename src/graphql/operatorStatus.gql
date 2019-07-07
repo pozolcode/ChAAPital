@@ -1,0 +1,9 @@
+mutation ($id: Int){
+  update_operatorList(_set: {active: true} where: {
+    id: {
+      _eq: $id
+    }
+  }) {
+    affected_rows
+  }
+}

@@ -22,38 +22,50 @@
     </div>
     <!-- Operator Display Menu -->
     <div class="container operator-menu" v-else-if="logged">
-      <!-- Welcome Row -->
-      <div class="row">
-        <div class="col-5 welcome">Bienvenido Operador</div>
-      </div>
-      <!-- Current Turn Row -->
-      <div class="row">
-        <div class="col-5">Atendiendo Turno {{ dataTurn }}</div>
-      </div>
-      <!-- Company Data Row -->
-      <div class="row">
-        <div class="col-5">Armadora: {{ dataCompany }}</div>
-      </div>
-      <!-- Model Data Row -->
-      <div class="row">
-        <div class="col-5">Modelo: {{ dataModel }}</div>
-      </div>
-      <!-- Year Data Row -->
-      <div class="row">
-        <div class="col-5">Año: {{ dataYear }}</div>
-      </div>
-      <!-- Motor Data Row -->
-      <div class="row">
-        <div class="col-5">Motor: {{ dataMotor }}</div>
-        <div class="col-7">
-          <button @click="fetchTurn">Siguiente</button>
-        </div>
-      </div>
+      <ApolloQuery :query="require('../graphql/getTurns.gql')">
+        <template slot-scope="{result: { data }}">
+          <div v-if="data">
+            <!-- Welcome Row -->
+            <div v-for="turn in data.turns" :key="turn.id">
+              <div class="row">
+                <div class="col-5 welcome">Bienvenido Operador {{ operatorList.name }}</div>
+              </div>  
+              <!-- Current Turn Row -->
+              <div class="row">
+                <div class="col-5">Atendiendo Turno: {{currentId = turn.id }}</div>
+              </div>
+              <!-- Company Data Row -->
+              <div class="row">
+                <div class="col-5">Armadora: {{ turn.company }}</div>
+              </div>
+              <!-- Model Data Row -->
+              <div class="row">
+                <div class="col-5">Modelo: {{ turn.model }}</div>
+              </div>
+              <!-- Year Data Row -->
+              <div class="row">
+                <div class="col-5">Año: {{ turn.year }}</div>
+              </div>
+              <!-- Motor Data Row -->
+              <div class="row">
+                <div class="col-5">Motor: {{ turn.motor }}</div>
+              
+                {{ metodo() }}
+              <div class="col-7">
+            </div>
+            <button @click="fetchTurn">Siguiente</button>
+            </div>
+            </div>
+          </div>
+        </template>
+      </ApolloQuery>
     </div>
   </div>
 </template>
 
 <script>
+import gql from 'graphql-tag'
+
 export default {
   name: "displayOperador",
   data: function () {
@@ -61,50 +73,65 @@ export default {
       logged: false,
       user: '',
       password: '',
-      dataTurn: '',
-      dataCompany: '',
-      dataModel: '',
-      dataYear: '',
-      dataMotor: ''
+      operatorList: [],
+      turns: [],
+      currentId: null
+    }
+  },
+  // Apollo Calls to get operator data
+  apollo: {
+    operatorList: {
+      query: gql`
+      query {
+        operatorList {
+          name
+          password
+          id
+        }
+      }`
     }
   },
   methods: {
     login: function () {
-      /* eslint-disable */
-      // Apollo Handling
-      console.log(this.user);
-      console.log(this.password);
-      // Apollo Handling
-      // Dummy Variables
-      let dummyUser = "root";
-      let dummyPassword = "123"
-      // Dummy Variables
-      if (this.user === dummyUser && this.password === dummyPassword) {
-        this.logged = true;
-        this.getData();
-      } else {
-        alert("Usuario y/o Contraseña Incorrectos\nInténtelo de nuevo");
-      }
-      this.user = "";
-      this.password = "";
-    },
-    getData: function () {
-      // Apollo Handling
-      this.dataTurn = "1";
-      this.dataCompany = "Placeholder";
-      this.dataModel = "Placeholder";
-      this.dataYear = "Placeholder";
-      this.dataMotor = "Placeholder";
-      // Apollo Handling
+      const{ currentId } = this
+      this.operatorList.forEach(element => {
+          /* eslint-disable */
+        if (this.user === element.name && this.password === element.password) {
+          let id = element.id;
+          this.$apollo.mutate ({
+            mutation: require ('../graphql/operatorStatus.gql'),
+            variables: {
+              id
+            }
+          })
+          this.logged = true;
+        }
+      });
     },
     pushTurn: function () {
-      // Apollo Handling
-      // GETs next turn data
-      // Apollo Handling
+      //Apollo Handling
+      /* eslint-disable */
+      const{ currentId } = this
+      this.$apollo.mutate ({
+        mutation: require ('../graphql/clientDone.gql'),
+        variables: {
+          currentId
+        }
+      })
+      //Apollo Handling
     },
     fetchTurn: function () {
       this.pushTurn();
-      this.getData();
+    },
+    metodo: function () {
+      /* eslint-disable */
+      const{ currentId } = this
+      this.$apollo.mutate ({
+            mutation: require ('../graphql/clientAttending.gql'),
+            variables: {
+              currentId
+            }
+          })
     }
   }
 }
