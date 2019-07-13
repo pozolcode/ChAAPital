@@ -1,0 +1,5 @@
+query getOperator{
+ operatorList (limit: 1, where: {active: {_eq: true}, type: {_eq: 1}}) {
+    id
+  }
+}
