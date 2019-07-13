@@ -49,8 +49,7 @@
               <!-- Motor Data Row -->
               <div class="row">
                 <div class="col-5">Motor: {{ turn.motor }}</div>
-              
-                {{ metodo() }}
+                {{ metodo() || ocupado() }}
               <div class="col-7">
             </div>
             <button @click="fetchTurn">Siguiente</button>
@@ -75,7 +74,8 @@ export default {
       password: '',
       operatorList: [],
       turns: [],
-      currentId: null
+      currentId: null,
+      operatorId: null
     }
   },
   // Apollo Calls to get operator data
@@ -93,17 +93,11 @@ export default {
   },
   methods: {
     login: function () {
-      const{ currentId } = this
       this.operatorList.forEach(element => {
           /* eslint-disable */
         if (this.user === element.name && this.password === element.password) {
-          let id = element.id;
-          this.$apollo.mutate ({
-            mutation: require ('../graphql/operatorStatus.gql'),
-            variables: {
-              id
-            }
-          })
+          this.operatorId = element.id;
+          this.libre();
           this.logged = true;
         }
       });
@@ -111,6 +105,7 @@ export default {
     pushTurn: function () {
       //Apollo Handling
       /* eslint-disable */
+      this.libre();
       const{ currentId } = this
       this.$apollo.mutate ({
         mutation: require ('../graphql/clientDone.gql'),
@@ -125,13 +120,33 @@ export default {
     },
     metodo: function () {
       /* eslint-disable */
-      const{ currentId } = this
+      const { currentId } = this
       this.$apollo.mutate ({
-            mutation: require ('../graphql/clientAttending.gql'),
-            variables: {
-              currentId
-            }
-          })
+        mutation: require ('../graphql/clientAttending.gql'),
+        variables: {
+          currentId
+        }
+      })
+    },
+    libre: function () {
+      /* eslint-disable */
+      const { operatorId } = this;
+      this.$apollo.mutate ({
+        mutation: require ('../graphql/operatorStatus.gql'),
+        variables: {
+          operatorId
+        }
+      })
+    },
+    ocupado: function () {
+      /* eslint-disable */
+      const { operatorId } = this;
+      this.$apollo.mutate ({
+        mutation: require ('../graphql/operatorOcupate.gql'),
+        variables: {
+          operatorId
+        }
+      })
     }
   }
 }
