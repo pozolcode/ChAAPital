@@ -1,7 +1,7 @@
 # ChAAPital
-Aplicación web de un sistema de turnos desarrollado sobre Vue.js y GraphQL, y montado en Hasura.
-### Para correr la App:
-##### Instalar los paquetes Node.js
+Web Aplication about a turn system developed in Vue.js & GraphQL, using Hasura.
+### To Run the App:
+##### Install Node.js Packages
 > npm install
-##### Correr el servidor local port 8080
+##### Run on Local Port 8080
 > npm run serve
