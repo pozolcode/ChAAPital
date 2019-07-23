@@ -117,6 +117,7 @@ export default {
     },
     fetchTurn: function () {
       this.pushTurn();
+      /* eslint-disable */
     },
     metodo: function () {
       /* eslint-disable */
