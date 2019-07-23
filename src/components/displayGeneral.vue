@@ -34,19 +34,17 @@ export default {
   apollo: {
     $subscribe: {
       turns: {
-        query: require ('../graphql/getTurnId.gql'),
+        query: require ('../graphql/getTurns.gql'),
         result ({ data }) {
           this.turns = data.turns
         }
-      }
-    },
-    operatorList: {
-      query: gql`
-      query getOperator {
-        operatorList (limit: 1, where: {active: {_eq: true}, type: {_eq: 1}}, order_by: {id: asc}) {
-          id
+      },
+      operatorList: {
+        query: require ('../graphql/getOperator.gql'),
+        result ({ data }) {
+          this.operatorList = data.operatorList
         }
-      }`
+      }
     }
   }
 }

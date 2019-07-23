@@ -22,13 +22,11 @@
     </div>
     <!-- Operator Display Menu -->
     <div class="container operator-menu" v-else-if="logged">
-      <ApolloQuery :query="require('../graphql/getTurns.gql')">
-        <template slot-scope="{result: { data }}">
-          <div v-if="data">
+          <div>
             <!-- Welcome Row -->
-            <div v-for="turn in data.turns" :key="turn.id">
+            <div v-for="turn in turns" :key="turn.id">
               <div class="row">
-                <div class="col-5 welcome">Bienvenido Operador {{ operatorList.name }}</div>
+                <div class="col-5 welcome">Bienvenido Operador {{ user }}</div>
               </div>  
               <!-- Current Turn Row -->
               <div class="row">
@@ -56,8 +54,6 @@
             </div>
             </div>
           </div>
-        </template>
-      </ApolloQuery>
     </div>
   </div>
 </template>
@@ -89,6 +85,14 @@ export default {
           id
         }
       }`
+    },
+    $subscribe: {
+      turns: {
+        query: require ('../graphql/getTurns.gql'),
+        result ({ data }) {
+          this.turns = data.turns
+        }
+      }
     }
   },
   methods: {
@@ -117,15 +121,15 @@ export default {
     },
     fetchTurn: function () {
       this.pushTurn();
-      /* eslint-disable */
     },
     metodo: function () {
       /* eslint-disable */
-      const { currentId } = this
+      const { currentId, operatorId } = this
       this.$apollo.mutate ({
         mutation: require ('../graphql/clientAttending.gql'),
         variables: {
-          currentId
+          currentId,
+          operatorId
         }
       })
     },
