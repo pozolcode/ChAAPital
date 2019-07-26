@@ -25,31 +25,36 @@
           <div>
             <!-- Welcome Row -->
             <div v-for="turn in turns" :key="turn.id">
+              {{ motor = turn.motor }}
+              {{ company = turn.company }}
+              {{ year = turn.year }}
+              {{ model = turn.model }}
+              {{ currentId = turn.id }}
+            </div>
               <div class="row">
                 <div class="col-5 welcome">Bienvenido Operador {{ user }}</div>
               </div>  
               <!-- Current Turn Row -->
               <div class="row">
-                <div class="col-5">Atendiendo Turno: {{currentId = turn.id }}</div>
+                <div class="col-5">Atendiendo Turno: {{ currentId }}</div>
               </div>
               <!-- Company Data Row -->
               <div class="row">
-                <div class="col-5">Armadora: {{ turn.company }}</div>
+                <div class="col-5">Armadora: {{ company }}</div>
               </div>
               <!-- Model Data Row -->
               <div class="row">
-                <div class="col-5">Modelo: {{ turn.model }}</div>
+                <div class="col-5">Modelo: {{ model }}</div>
               </div>
               <!-- Year Data Row -->
               <div class="row">
-                <div class="col-5">Año: {{ turn.year }}</div>
+                <div class="col-5">Año: {{ year }}</div>
               </div>
               <!-- Motor Data Row -->
               <div class="row">
-                <div class="col-5">Motor: {{ turn.motor }}</div>
-                {{ metodo() || ocupado() }}
+                <div class="col-5">Motor: {{ motor }}</div>
+                {{ ocupado() }}
               <div class="col-7">
-            </div>
             <button @click="fetchTurn">Siguiente</button>
             </div>
             </div>
@@ -71,7 +76,11 @@ export default {
       operatorList: [],
       turns: [],
       currentId: null,
-      operatorId: null
+      operatorId: null,
+      model: '',
+      company: '',
+      year: '',
+      motor: ''
     }
   },
   // Apollo Calls to get operator data
@@ -85,14 +94,6 @@ export default {
           id
         }
       }`
-    },
-    $subscribe: {
-      turns: {
-        query: require ('../graphql/getTurns.gql'),
-        result ({ data }) {
-          this.turns = data.turns
-        }
-      }
     }
   },
   methods: {
@@ -120,9 +121,21 @@ export default {
       //Apollo Handling
     },
     fetchTurn: function () {
-      this.pushTurn();
+      /* eslint-disable */
+      this.$apollo.query ({
+          query: {
+            
+          },
+        result ({ query }) {
+          this.turns = data.turns
+        }
+      })
+      return alert(this.turns)
+      // if ( this.turns === !null ) {
+      //   this.attending();
+      // }
     },
-    metodo: function () {
+    attending: function () {
       /* eslint-disable */
       const { currentId, operatorId } = this
       this.$apollo.mutate ({

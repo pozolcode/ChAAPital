@@ -34,7 +34,7 @@ export default {
   apollo: {
     $subscribe: {
       turns: {
-        query: require ('../graphql/getTurns.gql'),
+        query: require ('../graphql/getTurnsSubscription.gql'),
         result ({ data }) {
           this.turns = data.turns
         }
