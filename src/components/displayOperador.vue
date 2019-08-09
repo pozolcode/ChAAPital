@@ -22,49 +22,46 @@
     </div>
     <!-- Operator Display Menu -->
     <div class="container operator-menu" v-else-if="logged">
-      <ApolloQuery :query="require('../graphql/getTurns.gql')">
-        <template slot-scope="{result: { data }}">
-          <div v-if="data">
+          <div>
             <!-- Welcome Row -->
-            <div v-for="turn in data.turns" :key="turn.id">
+            <div style="display: none;" v-for="turn in turns" :key="turn.id">
+              {{ motor = turn.motor }} {{ company = turn.company }} {{ year = turn.year }} {{ model = turn.model }} {{ currentId = turn.id }}
+            </div>
               <div class="row">
-                <div class="col-5 welcome">Bienvenido Operador {{ operatorList.name }}</div>
+                <div class="col-5 welcome">Bienvenido Operador {{ user }}</div>
               </div>  
               <!-- Current Turn Row -->
               <div class="row">
-                <div class="col-5">Atendiendo Turno: {{currentId = turn.id }}</div>
+                <div class="col-5">Atendiendo Turno: {{ currentId }}</div>
               </div>
               <!-- Company Data Row -->
               <div class="row">
-                <div class="col-5">Armadora: {{ turn.company }}</div>
+                <div class="col-5">Armadora: {{ company }}</div>
               </div>
               <!-- Model Data Row -->
               <div class="row">
-                <div class="col-5">Modelo: {{ turn.model }}</div>
+                <div class="col-5">Modelo: {{ model }}</div>
               </div>
               <!-- Year Data Row -->
               <div class="row">
-                <div class="col-5">Año: {{ turn.year }}</div>
+                <div class="col-5">Año: {{ year }}</div>
               </div>
               <!-- Motor Data Row -->
               <div class="row">
-                <div class="col-5">Motor: {{ turn.motor }}</div>
-              
-                {{ metodo() }}
+                <div class="col-5">Motor: {{ motor }}</div>
+                {{ ocupado() }} {{ attending() }}
               <div class="col-7">
-            </div>
-            <button @click="fetchTurn">Siguiente</button>
+            <button @click="pushTurn">Siguiente</button>
             </div>
             </div>
           </div>
-        </template>
-      </ApolloQuery>
     </div>
   </div>
 </template>
 
 <script>
-import gql from 'graphql-tag'
+import gql from 'graphql-tag';
+import getTurnQuery from '../graphql/getTurns.gql';
 
 export default {
   name: "displayOperador",
@@ -75,7 +72,12 @@ export default {
       password: '',
       operatorList: [],
       turns: [],
-      currentId: null
+      currentId: null,
+      operatorId: null,
+      model: '',
+      company: '',
+      year: '',
+      motor: ''
     }
   },
   // Apollo Calls to get operator data
@@ -89,21 +91,27 @@ export default {
           id
         }
       }`
+    },
+    turns: {
+      query: gql`
+        query turns {
+          turns (limit: 1, where: {status: {_eq: "free"}, speedCheck: {_eq: false}}, order_by: {id: asc}) {
+            company
+            model
+            motor
+            year
+            id
+          }
+        }`
     }
   },
   methods: {
     login: function () {
-      const{ currentId } = this
       this.operatorList.forEach(element => {
           /* eslint-disable */
         if (this.user === element.name && this.password === element.password) {
-          let id = element.id;
-          this.$apollo.mutate ({
-            mutation: require ('../graphql/operatorStatus.gql'),
-            variables: {
-              id
-            }
-          })
+          this.operatorId = element.id;
+          this.libre();
           this.logged = true;
         }
       });
@@ -111,27 +119,49 @@ export default {
     pushTurn: function () {
       //Apollo Handling
       /* eslint-disable */
+      this.libre();
       const{ currentId } = this
       this.$apollo.mutate ({
         mutation: require ('../graphql/clientDone.gql'),
         variables: {
           currentId
-        }
+        },
+        refetchQueries: [{
+          query: getTurnQuery
+        }]
       })
       //Apollo Handling
     },
-    fetchTurn: function () {
-      this.pushTurn();
-    },
-    metodo: function () {
+    attending: function () {
       /* eslint-disable */
-      const{ currentId } = this
+      const { currentId, operatorId } = this
       this.$apollo.mutate ({
-            mutation: require ('../graphql/clientAttending.gql'),
-            variables: {
-              currentId
-            }
-          })
+        mutation: require ('../graphql/clientAttending.gql'),
+        variables: {
+          currentId,
+          operatorId
+        }
+      })
+    },
+    libre: function () {
+      /* eslint-disable */
+      const { operatorId } = this;
+      this.$apollo.mutate ({
+        mutation: require ('../graphql/operatorStatus.gql'),
+        variables: {
+          operatorId
+        }
+      })
+    },
+    ocupado: function () {
+      /* eslint-disable */
+      const { operatorId } = this;
+      this.$apollo.mutate ({
+        mutation: require ('../graphql/operatorOcupate.gql'),
+        variables: {
+          operatorId
+        }
+      })
     }
   }
 }

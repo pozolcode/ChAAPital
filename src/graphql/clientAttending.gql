@@ -1,5 +1,5 @@
-mutation ($currentId: Int){
-  update_turns(_set: {status: "attending"} where: {
+mutation ($currentId: Int, $operatorId: Int){
+  update_turns(_set: {status: "attending", operatorId: $operatorId} where: {
     id: {
       _eq: $currentId
     }

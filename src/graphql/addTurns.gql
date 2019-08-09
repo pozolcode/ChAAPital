@@ -6,6 +6,7 @@ mutation addTurns($company: String, $model: String, $motor: String, $status: Str
     year: $year
     status: "free"
     speedCheck: false
+    operatorId: 0
   }]) {
     returning{
       id

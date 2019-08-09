@@ -1,5 +1,5 @@
 mutation ($operatorId: Int){
-  update_operatorList(_set: {active: true} where: {
+  update_operatorList(_set: {active: false} where: {
     id: {
       _eq: $operatorId
     }

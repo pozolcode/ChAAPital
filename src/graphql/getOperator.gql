@@ -1,5 +1,5 @@
-query getOperator{
- operatorList (limit: 1, where: {active: {_eq: true}, type: {_eq: 1}}) {
+subscription getOperator{
+ operatorList (limit: 1, where: {active: {_eq: true}, type: {_eq: 1}}, order_by: {id: asc}) {
     id
   }
 }
