@@ -24,12 +24,8 @@
     <div class="container operator-menu" v-else-if="logged">
           <div>
             <!-- Welcome Row -->
-            <div v-for="turn in turns" :key="turn.id">
-              {{ motor = turn.motor }}
-              {{ company = turn.company }}
-              {{ year = turn.year }}
-              {{ model = turn.model }}
-              {{ currentId = turn.id }}
+            <div style="display: none;" v-for="turn in turns" :key="turn.id">
+              {{ motor = turn.motor }} {{ company = turn.company }} {{ year = turn.year }} {{ model = turn.model }} {{ currentId = turn.id }}
             </div>
               <div class="row">
                 <div class="col-5 welcome">Bienvenido Operador {{ user }}</div>
@@ -53,9 +49,9 @@
               <!-- Motor Data Row -->
               <div class="row">
                 <div class="col-5">Motor: {{ motor }}</div>
-                {{ ocupado() }}
+                {{ ocupado() }} {{ attending() }}
               <div class="col-7">
-            <button @click="fetchTurn">Siguiente</button>
+            <button @click="pushTurn">Siguiente</button>
             </div>
             </div>
           </div>
@@ -64,7 +60,8 @@
 </template>
 
 <script>
-import gql from 'graphql-tag'
+import gql from 'graphql-tag';
+import getTurnQuery from '../graphql/getTurns.gql';
 
 export default {
   name: "displayOperador",
@@ -94,6 +91,18 @@ export default {
           id
         }
       }`
+    },
+    turns: {
+      query: gql`
+        query turns {
+          turns (limit: 1, where: {status: {_eq: "free"}, speedCheck: {_eq: false}}, order_by: {id: asc}) {
+            company
+            model
+            motor
+            year
+            id
+          }
+        }`
     }
   },
   methods: {
@@ -116,24 +125,12 @@ export default {
         mutation: require ('../graphql/clientDone.gql'),
         variables: {
           currentId
-        }
+        },
+        refetchQueries: [{
+          query: getTurnQuery
+        }]
       })
       //Apollo Handling
-    },
-    fetchTurn: function () {
-      /* eslint-disable */
-      this.$apollo.query ({
-          query: {
-            
-          },
-        result ({ query }) {
-          this.turns = data.turns
-        }
-      })
-      return alert(this.turns)
-      // if ( this.turns === !null ) {
-      //   this.attending();
-      // }
     },
     attending: function () {
       /* eslint-disable */
