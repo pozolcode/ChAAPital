@@ -32,21 +32,19 @@ export default {
   },
   // Apollo Calls to fill variable names
   apollo: {
-    turns: {
-      query: gql`
-      query getTurns {
-        turns (limit: 1, where: {status: {_eq: "free"}, speedCheck: {_eq: false}}) {
-          id
+    $subscribe: {
+      turns: {
+        query: require ('../graphql/getTurnsSubscription.gql'),
+        result ({ data }) {
+          this.turns = data.turns
         }
-      }`
-    },
-    operatorList: {
-      query: gql`
-      query getOperator {
-        operatorList (limit: 1, where: {active: {_eq: true}, type: {_eq: 1}}) {
-          id
+      },
+      operatorList: {
+        query: require ('../graphql/getOperator.gql'),
+        result ({ data }) {
+          this.operatorList = data.operatorList
         }
-      }`
+      }
     }
   }
 }
