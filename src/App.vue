@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import displayUsuario from './components/displayUsuario.vue'
+import displayUsuario from './components/DisplayUser/mainUser.vue'
 import displayGeneral from './components/displayGeneral.vue'
 import displayOperador from './components/displayOperador.vue'
 
@@ -53,6 +53,9 @@ export default {
 
 <style lang="scss">
 @import url("../public/assets/css/tejuino/tejuino.css");
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap');
+
+* { font-family: 'Roboto', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', Arial, sans-serif }
 
 body {
   background-color: #efefef;
