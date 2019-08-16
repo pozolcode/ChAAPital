@@ -97,12 +97,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-  /* Variables */
   $red-main: #ff0011;
   $red-alt: #c4000d;
   $red-strong: #e30615;
-
-  /* General Page */
 
   .page {
     background-image: url("../../../public/assets/img/car-parts-and-car-edited.jpg");
@@ -115,8 +112,6 @@ export default {
       border-radius: 4.2rem;
     }
   }
-
-  /* Start View */
 
   .col-start-view {
     text-align: right;

@@ -30,8 +30,8 @@
 
 <script>
 import displayUser from './components/DisplayUser/mainUser.vue'
-import displayGeneral from './components/GeneralDisplay/mainGeneral.vue'
-import displayOperador from './components/displayOperador.vue'
+import displayGeneral from './components/DisplayGeneral/mainGeneral.vue'
+import displayOperador from './components/DisplayOperator/mainOperator.vue'
 
 export default {
   name: 'app',
