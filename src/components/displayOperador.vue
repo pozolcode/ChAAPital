@@ -62,7 +62,6 @@
 <script>
 import gql from 'graphql-tag';
 import getTurnQuery from '../graphql/getTurns.gql';
-
 export default {
   name: "displayOperador",
   data: function () {
@@ -178,8 +177,6 @@ button {
     background-color: #b3661a;
   }
 }
-
 .row { justify-content: flex-start; }
-
 .welcome { text-transform: uppercase; }
 </style>

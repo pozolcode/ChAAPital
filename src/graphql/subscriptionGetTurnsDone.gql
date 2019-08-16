@@ -1,0 +1,9 @@
+subscription getTurns ($limit: Int) {
+  turns (limit: $limit, where: {status: {_eq: "done"}, speedCheck: {_eq: false}}, order_by: {id: desc}) {
+    company
+    model
+    motor
+    year
+    id
+  }
+}

@@ -22,21 +22,21 @@
         </div>
       </div>
     </div>
-    <div v-else-if="displayUser"><displayUsuario /></div>
+    <div v-else-if="displayUser"><displayUser /></div>
     <div v-else-if="displayGeneral"><displayGeneral /></div>
     <div v-else-if="displayOperator"><displayOperador /></div>
   </div>
 </template>
 
 <script>
-import displayUsuario from './components/DisplayUser/mainUser.vue'
-import displayGeneral from './components/displayGeneral.vue'
+import displayUser from './components/DisplayUser/mainUser.vue'
+import displayGeneral from './components/GeneralDisplay/mainGeneral.vue'
 import displayOperador from './components/displayOperador.vue'
 
 export default {
   name: 'app',
   components: {
-    displayUsuario,
+    displayUser,
     displayGeneral,
     displayOperador
   },
