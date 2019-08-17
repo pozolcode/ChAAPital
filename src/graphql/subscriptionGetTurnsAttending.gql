@@ -1,0 +1,10 @@
+subscription getTurns {
+  turns (limit: 3, where: {status: {_eq: "attending"}, speedCheck: {_eq: false}}, order_by: {id: desc}) {
+    company
+    model
+    motor
+    year
+    id
+    operatorId
+  }
+}

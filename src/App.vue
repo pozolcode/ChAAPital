@@ -22,21 +22,21 @@
         </div>
       </div>
     </div>
-    <div v-else-if="displayUser"><displayUsuario /></div>
+    <div v-else-if="displayUser"><displayUser /></div>
     <div v-else-if="displayGeneral"><displayGeneral /></div>
     <div v-else-if="displayOperator"><displayOperador /></div>
   </div>
 </template>
 
 <script>
-import displayUsuario from './components/displayUsuario.vue'
-import displayGeneral from './components/displayGeneral.vue'
-import displayOperador from './components/displayOperador.vue'
+import displayUser from './components/DisplayUser/mainUser.vue'
+import displayGeneral from './components/DisplayGeneral/mainGeneral.vue'
+import displayOperador from './components/DisplayOperator/mainOperator.vue'
 
 export default {
   name: 'app',
   components: {
-    displayUsuario,
+    displayUser,
     displayGeneral,
     displayOperador
   },
@@ -53,6 +53,9 @@ export default {
 
 <style lang="scss">
 @import url("../public/assets/css/tejuino/tejuino.css");
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,500,700&display=swap');
+
+* { font-family: 'Roboto', 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', Arial, sans-serif }
 
 body {
   background-color: #efefef;
