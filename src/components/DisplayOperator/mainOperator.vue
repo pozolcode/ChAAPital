@@ -7,17 +7,24 @@
         </div>
         <div class="col-12 page-label">Usuario</div>
         <div class="col-12 page-input">
-          <input type="text" placeholder="Ingrese su usuario..." v-model="user">
+          <input type="text" placeholder="Usuario" v-model="user">
         </div>
         <div class="col-12 page-label">Contraseña</div>
         <div class="col-12 page-input">
-          <input type="password" placeholder="Ingrese su contraseña..." v-model="password">
+          <input type="password" placeholder="Contraseña" v-model="password">
         </div>
         <div class="col-12 page-btn">
           <button class="btn btn-loggin" @click="login">Entrar</button>
         </div>
       </div>
       <div class="row" v-else>
+        <div v-for="turn in turns" :key="turn.id">
+          {{ currentId = turn.id }}
+          {{ motor = turn.motor }}
+          {{ model = turn.model }}
+          {{ year = turn.year }}
+          {{ company = turn.company }}
+        </div>
         <div class="col-12 operator-intro">Hola, caja {{ operatorId }}</div>
         <div class="col-12 operator-current-turn">
           <span>Atendiendo turno:</span>
@@ -44,11 +51,11 @@
         <div class="col-6 container-engine">
           <div class="element-container">
             <div class="col-12">Motor</div>
-            <div class="col-12">{{ enigne || "N/A" }}</div>
+            <div class="col-12">{{ motor || "N/A" }}</div>
           </div>
         </div>
         {{ busy() }} {{ attending() }}
-        <button class="btn btn-next-turn">Siguiente</button>
+        <button class="btn btn-next-turn" @click="pushTurn">Siguiente</button>
       </div>
     </div>
   </div>
@@ -72,7 +79,7 @@
         model: '',
         company: '',
         year: '',
-        engine: ''
+        motor: ''
       }
     },
     apollo: {
@@ -87,16 +94,7 @@
         }`
       },
       turns: {
-        query: gql`
-          query turns {
-            turns (limit: 1, where: {status: {_eq: "free"}, speedCheck: {_eq: false}}, order_by: {id: asc}) {
-              company
-              model
-              engine
-              year
-              id
-            }
-          }`
+        query: getTurnQuery
       }
     },
     methods: {
@@ -126,6 +124,7 @@
         })
         //Apollo Handling
       },
+      //Client
       attending: function () {
         /* eslint-disable */
         const { currentId, operatorId } = this
@@ -137,6 +136,7 @@
           }
         })
       },
+      //Operator
       free: function () {
         /* eslint-disable */
         const { operatorId } = this;
@@ -147,6 +147,7 @@
           }
         })
       },
+      //Operator
       busy: function () {
         /* eslint-disable */
         const { operatorId } = this;

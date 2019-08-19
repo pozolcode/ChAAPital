@@ -4,8 +4,7 @@
     <div class="container">
       <div class="row">
         <div class="col-6 col-turn-display">
-          <div class="container container-turns">
-            <div v-for="turn in turns" :key="turn.id">
+          <div class="container container-turns"><div v-for="turn in doneTurns" :key="turn.id">
               <div class="col-12">
                 S{{ turn.id }}
               </div>
@@ -22,7 +21,7 @@
                 </span>
               </div>
             </div>
-            <div v-for="turn in doneTurns" :key="turn.id">
+            <div v-for="turn in turns" :key="turn.id">
               <div class="col-12">
                 S{{ turn.id }}
               </div>
