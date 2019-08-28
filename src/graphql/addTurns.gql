@@ -1,4 +1,4 @@
-mutation addTurns($company: String, $model: String, $motor: String, $status: String, $year: String, $speedCheck: Boolean){
+mutation addTurns($company: String, $model: String, $motor: String, $year: String){
   insert_turns(objects: [{
     company: $company
     model: $model

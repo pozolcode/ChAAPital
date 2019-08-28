@@ -1,9 +1,5 @@
 subscription getTurns {
-  turns (limit: 1, where: {status: {_eq: "free"}, speedCheck: {_eq: false}}, order_by: {id: asc}) {
-    company
-    model
-    motor
-    year
+  turns (limit: 4, where: {status: {_eq: "free"}, speedCheck: {_eq: false}}, order_by: {id: asc}) {
     id
   }
 }
